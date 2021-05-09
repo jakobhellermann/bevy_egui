@@ -35,8 +35,12 @@ thread_local = { version = "1.1.0", optional = true }
 version-sync = "0.9.2"
 
 [target.'cfg(not(target_arch = "wasm32"))'.dev-dependencies]
+<<<<<<< HEAD
 bevy = { git = "https://github.com/bevyengine/bevy", branch = "main", default-features = false, features = [
 	"bevy_wgpu",
 	"x11",
 	"png"
 ] }
+=======
+bevy = { git = "https://github.com/bevyengine/bevy", branch = "main", default-features = false, features = ["bevy_wgpu", "x11", "png"] }
+>>>>>>> 1fac22d (track bevy main branch)
