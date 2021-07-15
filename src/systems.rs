@@ -1,3 +1,5 @@
+use std::marker::PhantomData;
+
 use crate::{EguiContext, EguiInput, EguiOutput, EguiSettings, EguiShapes, WindowSize};
 #[cfg(feature = "open_url")]
 use bevy::log;
@@ -18,29 +20,33 @@ use bevy::{
 };
 
 #[derive(SystemParam)]
-pub struct InputEvents<'a> {
-    ev_cursor_left: EventReader<'a, CursorLeft>,
-    ev_cursor: EventReader<'a, CursorMoved>,
-    ev_mouse_wheel: EventReader<'a, MouseWheel>,
-    ev_received_character: EventReader<'a, ReceivedCharacter>,
-    ev_window_focused: EventReader<'a, WindowFocused>,
-    ev_window_created: EventReader<'a, WindowCreated>,
+pub struct InputEvents<'s, 'w> {
+    ev_cursor_left: EventReader<'s, 'w, CursorLeft>,
+    ev_cursor: EventReader<'s, 'w, CursorMoved>,
+    ev_mouse_wheel: EventReader<'s, 'w, MouseWheel>,
+    ev_received_character: EventReader<'s, 'w, ReceivedCharacter>,
+    ev_window_focused: EventReader<'s, 'w, WindowFocused>,
+    ev_window_created: EventReader<'s, 'w, WindowCreated>,
 }
 
 #[derive(SystemParam)]
-pub struct InputResources<'a> {
+pub struct InputResources<'s, 'w> {
     #[cfg(feature = "manage_clipboard")]
-    egui_clipboard: Res<'a, crate::EguiClipboard>,
-    mouse_button_input: Res<'a, Input<MouseButton>>,
-    keyboard_input: Res<'a, Input<KeyCode>>,
-    egui_input: ResMut<'a, HashMap<WindowId, EguiInput>>,
+    egui_clipboard: Res<'w, crate::EguiClipboard>,
+    mouse_button_input: Res<'w, Input<MouseButton>>,
+    keyboard_input: Res<'w, Input<KeyCode>>,
+    egui_input: ResMut<'w, HashMap<WindowId, EguiInput>>,
+    #[system_param(ignore)]
+    _marker: PhantomData<&'s usize>,
 }
 
 #[derive(SystemParam)]
-pub struct WindowResources<'a> {
-    focused_window: Local<'a, WindowId>,
-    windows: ResMut<'a, Windows>,
-    window_sizes: ResMut<'a, HashMap<WindowId, WindowSize>>,
+pub struct WindowResources<'s, 'w> {
+    focused_window: Local<'s, WindowId>,
+    windows: ResMut<'w, Windows>,
+    window_sizes: ResMut<'w, HashMap<WindowId, WindowSize>>,
+    #[system_param(ignore)]
+    _marker: PhantomData<&'s usize>,
 }
 
 pub fn process_input(
