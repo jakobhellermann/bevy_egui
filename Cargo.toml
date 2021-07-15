@@ -19,13 +19,16 @@ manage_clipboard = ["clipboard", "thread_local"]
 open_url = ["webbrowser"]
 
 [dependencies]
-bevy = { git = "https://github.com/bevyengine/bevy", branch = "main", default-features = false, features = [
-    "render",
-    "bevy_winit"
+bevy = { git = "https://github.com/bevyengine/bevy", branch = "pipelined-rendering", default-features = false, features = [
+    "bevy_render2",
+    "bevy_winit",
+    "bevy_core_pipeline"
 ] }
 egui = "0.14.0"
 webbrowser = { version = "0.5.5", optional = true }
 winit = { version = "0.25.0", features = ["x11"], default-features = false }
+bytemuck = { version = "1.7.0", features = ["derive"] }
+wgpu = "0.9.0"
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
 clipboard = { version = "0.5.0", optional = true }
@@ -35,7 +38,7 @@ thread_local = { version = "1.1.0", optional = true }
 version-sync = "0.9.2"
 
 [target.'cfg(not(target_arch = "wasm32"))'.dev-dependencies]
-bevy = { git = "https://github.com/bevyengine/bevy", branch = "main", default-features = false, features = [
+bevy = { git = "https://github.com/bevyengine/bevy", branch = "pipelined-rendering", default-features = false, features = [
 	"bevy_wgpu",
 	"x11",
 	"png"
