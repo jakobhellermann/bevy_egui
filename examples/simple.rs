@@ -2,7 +2,7 @@ use bevy::prelude::*;
 use bevy_egui::{egui, EguiContext, EguiPlugin};
 
 fn main() {
-    App::build()
+    App::default()
         .add_plugins(DefaultPlugins)
         .add_plugin(EguiPlugin)
         .add_system(ui_example.system())

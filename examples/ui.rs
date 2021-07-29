@@ -4,7 +4,7 @@ use bevy_egui::{egui, EguiContext, EguiPlugin, EguiSettings};
 const BEVY_TEXTURE_ID: u64 = 0;
 
 fn main() {
-    App::build()
+    App::default()
         .insert_resource(ClearColor(Color::rgb(0.0, 0.0, 0.0)))
         .insert_resource(Msaa { samples: 4 })
         .init_resource::<UiState>()

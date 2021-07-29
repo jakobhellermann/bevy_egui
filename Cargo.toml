@@ -18,11 +18,16 @@ default = ["manage_clipboard", "open_url"]
 manage_clipboard = ["clipboard", "thread_local"]
 open_url = ["webbrowser"]
 
+# remove this when releasing the crate
+[patch.crates-io.bevy]
+git = "https://github.com/bevyengine/bevy.git"
+branch = "main"
+
 [dependencies]
-bevy = { git = "https://github.com/bevyengine/bevy", branch = "main", default-features = false, features = [
-	"render",
-	"bevy_winit"
-]}
+bevy = { version = "*", default-features = false, features = [
+    "render",
+    "bevy_winit",
+] }
 egui = "0.13.0"
 webbrowser = { version = "0.5.5", optional = true }
 winit = { version = "0.25.0", features = ["x11"], default-features = false }
@@ -35,8 +40,8 @@ thread_local = { version = "1.1.0", optional = true }
 version-sync = "0.9.2"
 
 [target.'cfg(not(target_arch = "wasm32"))'.dev-dependencies]
-bevy = { git = "https://github.com/bevyengine/bevy", branch = "main", default-features = false, features = [
-	"bevy_wgpu",
-	"x11",
-	"png"
+bevy = { version = "*", default-features = false, features = [
+    "bevy_wgpu",
+    "x11",
+    "png",
 ] }

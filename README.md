@@ -38,7 +38,7 @@ use bevy::prelude::*;
 use bevy_egui::{egui, EguiContext, EguiPlugin};
 
 fn main() {
-    App::build()
+    App::default()
         .add_plugins(DefaultPlugins)
         .add_plugin(EguiPlugin)
         .add_system(ui_example.system())
@@ -68,7 +68,7 @@ cargo run --example ui
 
 ## Bevy support table
 
-|bevy|bevy_egui|
-|---|---|
-|0.5|0.4-0.6|
-|0.4|0.1-0.3|
+| bevy | bevy_egui |
+| ---- | --------- |
+| 0.5  | 0.4-0.6   |
+| 0.4  | 0.1-0.3   |
