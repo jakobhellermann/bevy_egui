@@ -100,17 +100,7 @@ pub fn process_input(
         egui_context.ctx.entry(window.id()).or_default();
     }
 
-    for event in input_events.ev_mouse_wheel.iter() {
-        let mut delta = egui::vec2(event.x, event.y);
-        if let MouseScrollUnit::Line = event.unit {
-            // TODO: https://github.com/emilk/egui/blob/b869db728b6bbefa098ac987a796b2b0b836c7cd/egui_glium/src/lib.rs#L141
-            delta *= 24.0;
-        }
 
-        for egui_input in input_resources.egui_input.values_mut() {
-            egui_input.raw_input.scroll_delta += delta;
-        }
-    }
 
     let shift = input_resources.keyboard_input.pressed(KeyCode::LShift)
         || input_resources.keyboard_input.pressed(KeyCode::RShift);
@@ -135,6 +125,24 @@ pub fn process_input(
         mac_cmd,
         command,
     };
+
+    for event in input_events.ev_mouse_wheel.iter() {
+        let mut delta = egui::vec2(event.x, event.y);
+        if let MouseScrollUnit::Line = event.unit {
+            // TODO: https://github.com/emilk/egui/blob/b869db728b6bbefa098ac987a796b2b0b836c7cd/egui_glium/src/lib.rs#L141
+            delta *= 24.0;
+        }
+
+        for egui_input in input_resources.egui_input.values_mut() {
+            if modifiers.ctrl || modifiers.command {
+                // Treat as zoom instead:
+                egui_input.raw_input.zoom_delta *= (delta.y / 600.0).exp();
+            } else {
+
+                egui_input.raw_input.scroll_delta += delta;
+            }
+        }
+    }
 
     for cursor_entered in input_events.ev_cursor_left.iter() {
         input_resources
