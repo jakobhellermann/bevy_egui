@@ -363,7 +363,7 @@ impl Node for EguiNode {
             IndexFormat::Uint32,
         );
 
-        render_pass.set_bind_group(0, egui_shaders.transform_bind_group.value(), &[]);
+        render_pass.set_bind_group(0, &egui_shaders.transform_bind_group, &[]);
 
         let mut vertex_offset: u32 = 0;
         for draw_command in &self.draw_commands {
@@ -380,7 +380,7 @@ impl Node for EguiNode {
             };
 
             // bind group 1
-            render_pass.set_bind_group(1, texture_resource.value(), &[]);
+            render_pass.set_bind_group(1, texture_resource, &[]);
 
             render_pass.set_scissor_rect(
                 draw_command.clipping_zone.0,
